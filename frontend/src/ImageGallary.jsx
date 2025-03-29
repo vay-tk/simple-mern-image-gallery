@@ -13,7 +13,7 @@ function ImageGallery() {
 
   const fetchImages = async () => {
     try {
-      const response = await fetch("http://localhost:8090/api/images");
+      const response = await fetch("https://simple-mern-image-gallery.onrender.com/api/images");
       const { data } = await response.json();
       setImageList(data);
     } catch {
@@ -28,7 +28,7 @@ function ImageGallery() {
 
     try {
       const response = await fetch(
-        "http://localhost:8090/api/images/upload-images",
+        "https://simple-mern-image-gallery.onrender.com/api/images/upload-images",
         {
           method: "POST",
           body: formData,
