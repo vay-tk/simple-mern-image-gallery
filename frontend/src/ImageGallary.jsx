@@ -73,9 +73,9 @@ function ImageGallery() {
           className="hidden"
           id="fileUpload"
         />
-        <label htmlFor="fileUpload" className="cursor-pointer">
+        <label htmlFor="fileUpload" className="cursor-pointer flex flex-col items-center justify-center">
           <div className="w-14 h-14 bg-blue-500 text-white text-3xl font-bold rounded flex items-center justify-center shadow-md mb-3">
-            +
+            <span className="flex items-center justify-center w-full h-full">+</span>
           </div>
           <p className="text-lg font-medium text-gray-700">
             Click to upload images
