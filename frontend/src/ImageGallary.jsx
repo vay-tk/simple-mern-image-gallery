@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useDropzone } from "react-dropzone";
 import { ToastContainer, toast } from "react-toastify";
 
 function ImageGallery() {
@@ -21,10 +20,13 @@ function ImageGallery() {
     }
   };
 
-  const onDrop = async (acceptedFiles) => {
+  const handleFileUpload = async (event) => {
+    const files = event.target.files;
+    if (!files.length) return;
     setLoading(true);
     const formData = new FormData();
-    acceptedFiles.forEach((file) => formData.append("images", file));
+    
+    Array.from(files).forEach((file) => formData.append("images", file));
 
     try {
       const response = await fetch(
@@ -44,8 +46,6 @@ function ImageGallery() {
     }
   };
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
-
   const toggleFullscreen = (imageURL) => {
     setFullscreenImage(fullscreenImage === imageURL ? null : imageURL);
     document.body.style.overflow = fullscreenImage ? "auto" : "hidden";
@@ -64,24 +64,23 @@ function ImageGallery() {
 
   return (
     <div className="flex flex-col items-center w-full max-w-5xl mx-auto mt-12 px-6">
-      <div
-        {...getRootProps()}
-        className="w-full border-2 border-dashed border-gray-400 bg-gray-50 rounded-xl p-8 text-center cursor-pointer hover:bg-gray-100 transition-all duration-300 flex flex-col items-center justify-center"
-      >
-        <input {...getInputProps()}
+      <div className="w-full border-2 border-dashed border-gray-400 bg-gray-50 rounded-xl p-8 text-center hover:bg-gray-100 transition-all duration-300 flex flex-col items-center justify-center">
+        <input
           type="file"
-          accept="images/*"
+          accept="image/*"
           multiple
-          />
-        <button className="w-14 h-14 bg-blue-500 text-white text-3xl font-bold rounded flex items-center justify-center shadow-md mb-3">
-          +
-        </button>
-        <p className="text-lg font-medium text-gray-700">
-          Drag & drop your images here, or {" "}
-          <span className="font-semibold text-blue-600 hover:underline">
-            click to upload
-          </span>
-        </p>
+          onChange={handleFileUpload}
+          className="hidden"
+          id="fileUpload"
+        />
+        <label htmlFor="fileUpload" className="cursor-pointer">
+          <div className="w-14 h-14 bg-blue-500 text-white text-3xl font-bold rounded flex items-center justify-center shadow-md mb-3">
+            +
+          </div>
+          <p className="text-lg font-medium text-gray-700">
+            Click to upload images
+          </p>
+        </label>
       </div>
 
       {loading && (
@@ -123,11 +122,7 @@ function ImageGallery() {
         </div>
       )}
 
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-      />
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
     </div>
   );
 }
