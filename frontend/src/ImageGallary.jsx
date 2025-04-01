@@ -96,7 +96,7 @@ function ImageGallery() {
             <img
               src={imageURL}
               alt={originalName}
-              className="w-full h-auto max-h-80 rounded-lg shadow-md object-cover cursor-pointer transition-all"
+              className="w-full h-64"
               onClick={() => toggleFullscreen(imageURL)}
             />
             <p className="px-4 py-2 text-center text-gray-900 font-semibold">
